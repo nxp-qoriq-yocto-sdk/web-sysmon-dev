@@ -1,0 +1,10 @@
+#!%%RRDPATH%%/rrdcgi 
+
+<HTML>
+<meta http-equiv="Refresh" content="30">
+<HEAD>
+<TITLE>Hardware Monitor for %%MACH%%</TITLE>
+</HEAD>
+<BODY>
+<H1 align="center">Hardware Monitor for %%MACH%%</H1>
+

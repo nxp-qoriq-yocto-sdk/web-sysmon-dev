@@ -1,0 +1,13 @@
+<RRD::GRAPH %%APACHDIR%%/pix_%%SENSDEV%%/temp1h.png
+        --imginfo '<IMG SRC=pix_%%SENSDEV%%/%s WIDTH=%lu HEIGHT=%lu >'
+	-a PNG
+	-h 200 -w 500
+	--lazy
+	-s -4hours
+	-v "Temperature (degrees C)"
+	-t %%CHARTDESC%%
+	-x MINUTE:5:MINUTE:20:HOUR:1:0:'%b %d %H:%M'
+	-y 1:5
+	DEF:temp=%%RRDDIR%%/sensors_%%SENSDEV%%.rrd:temp1:AVERAGE
+	LINE2:temp#FF00FF>
+
