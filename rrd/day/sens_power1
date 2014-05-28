@@ -1,0 +1,15 @@
+<RRD::GRAPH %%APACHDIR%%/pix_%%SENSDEV%%/power1d.png
+        --imginfo '<IMG SRC=pix_%%SENSDEV%%/%s WIDTH=%lu HEIGHT=%lu >'
+	-a PNG
+	-h 200 -w 500
+	--lazy
+	-s -1days
+	-v "Power (watt)"
+	-t %%CHARTDESC%%
+	-x HOUR:1:HOUR:3:HOUR:6:0:'%b %d %H:00'
+	--lower-limit 0
+	-Y
+	DEF:temp=%%RRDDIR%%/sensors_%%SENSDEV%%.rrd:power1:AVERAGE
+	LINE2:temp#FF00FF>
+
+

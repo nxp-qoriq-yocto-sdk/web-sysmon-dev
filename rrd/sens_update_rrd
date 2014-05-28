@@ -53,8 +53,24 @@ then
 fi
 
 STRING=N
-
-SENSORS="temp1 temp2 temp3"
+#
+# Get the value from these sensor files (/sys)
+#
+#SENSORS="fan1 fan2 fan3"
+#for i in $SENSORS
+#do
+#	V="`cat $SENS/${i}_input 2> /dev/null`"
+#	if [ $? -ne 0 ]
+#	then
+#		STRING="${STRING}:U"
+#	else
+#		STRING="${STRING}:${V}"
+#	fi
+#done
+#
+# Get the value from these sensor files (/sys) and divide by 1000
+#
+SENSORS="temp1 temp2 temp3 in0 in1 in2 curr1"
 for i in $SENSORS
 do
 	V="`cat $SENS/${i}_input 2> /dev/null`"
@@ -63,6 +79,22 @@ do
 		STRING="${STRING}:U"
 	else
 		V=`echo "3k0 ${V/-/_} 1000/p"|dc`
+		STRING="${STRING}:${V}"
+	fi
+done
+
+#
+# Get the power value from these sensor files (/sys) and divide by 1000000
+#
+SENSORS="power1"
+for i in $SENSORS
+do
+	V="`cat $SENS/${i}_input 2> /dev/null`"
+	if [ $? -ne 0 ]
+	then
+		STRING="${STRING}:U"
+	else
+		V=`echo "3k0 ${V/-/_} 1000000/p"|dc`
 		STRING="${STRING}:${V}"
 	fi
 done

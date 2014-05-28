@@ -45,6 +45,11 @@ $RRDPATH/rrdtool create $RRDB --step 1 \
 	DS:temp1:GAUGE:${HB}:-25:250 \
 	DS:temp2:GAUGE:${HB}:-25:250 \
 	DS:temp3:GAUGE:${HB}:-25:250 \
+	DS:in0:GAUGE:${HB}:-25:25 \
+	DS:in1:GAUGE:${HB}:-25:25 \
+	DS:in2:GAUGE:${HB}:-25:25 \
+	DS:curr1:GAUGE:${HB}:-40:100 \
+	DS:power1:GAUGE:${HB}:0:100 \
 	DS:loadavg:GAUGE:${HB}:0:U \
 	RRA:AVERAGE:0.5:1:$RW
 
