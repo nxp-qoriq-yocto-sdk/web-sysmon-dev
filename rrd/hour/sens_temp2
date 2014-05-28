@@ -3,10 +3,10 @@
         -a PNG
         -h 200 -w 500
         --lazy
-        -s -4hours
+        -s -1hours
         -v "Temperature (degrees C)"
         -t %%CHARTDESC%%
-        -x MINUTE:5:MINUTE:20:HOUR:1:0:'%b %d %H:%M'
+	-x MINUTE:5:MINUTE:20:MINUTE:20:0:'%b %d %H:%M'
         -y 1:5
         DEF:temp=%%RRDDIR%%/sensors_%%SENSDEV%%.rrd:temp2:AVERAGE
         LINE2:temp#FF00FF>
