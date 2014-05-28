@@ -7,10 +7,17 @@ BINPATH=/usr/local/bin
 RRDDIR=/var/lib/sensors-rrd
 APACHE=/www/pages
 APACHDIR=$(APACHE)/senspix
-MACH=`uname -n | tr '[a-z]' '[A-Z]'`
+MACH=$(shell uname -n | tr '[a-z]' '[A-Z]')
 UPDATEDAEMON=/usr/rrd/update_rrd.sh
 HWMONSYS=/sys/class/hwmon
 SENSDIR=/sys/class/hwmon/hwmon0/device
+
+ifeq ($(MACH),T4240QDS)
+RRDUPDATE=sens_update_rrd_t4
+else
+RRDUPDATE=sens_update_rrd
+endif
+
 ################################################
 # Everything below here should be fine
 #
@@ -44,11 +51,10 @@ rrdb : $(RRDDIR)
 		./sens_create_rrd $$RRDB;	\
 		chown $(USER) $$RRDB;	\
 		install -d -o $(USER) -m 777 $(APACHDIR)/pix_$$SENSDEV;	\
-	echo '	/usr/local/bin/sens_update_rrd' $$RRDB $$SENSDEV >> $(UPDATEDAEMON);	\
+		echo '	/usr/local/bin/$(RRDUPDATE)' $$RRDB $$SENSDEV >> $(UPDATEDAEMON);	\
 	done
 	@echo 'sleep 1;' >> $(UPDATEDAEMON)
 	@echo 'done' >> $(UPDATEDAEMON)
-	@$(UPDATEDAEMON) &
 	
 $(SENSDIR) :
 	$(error error - sensor $(SENSDEV) not installed - check SENSDEV definition in Makefile)
@@ -57,7 +63,8 @@ $(APACHE) :
 	$(error error - Web server directory $(APACHE) not present - check APACHE definition in Makefile)
 
 install: rrdb $(SENSDIR) $(APACHE)
-	install -m 755 sens_update_rrd $(BINPATH)
+	install -m 755 $(RRDUPDATE) $(BINPATH)
+	@$(UPDATEDAEMON) &
 
 clean:
 	rm -rf sensors.cgi sens_week.cgi summ_week.cgi $(RRDDIR)
