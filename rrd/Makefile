@@ -1,3 +1,9 @@
+########################################################################
+#
+# Copyright (c) 2014 Freescale Semiconductor, Inc. All rights reserved.
+#
+########################################################################
+
 #
 # Edit the following for your setup
 #
@@ -67,4 +73,4 @@ install: rrdb $(SENSDIR) $(APACHE)
 	@$(UPDATEDAEMON) &
 
 clean:
-	rm -rf sensors.cgi sens_week.cgi summ_week.cgi $(RRDDIR)
+	rm -rf sensors.cgi $(APACHDIR)/sensors.cgi $(RRDDIR)
