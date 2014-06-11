@@ -38,7 +38,8 @@ sensors.cgi : Makefile monitor.conf
 		MONTERM=`echo $$line | awk -v FS=":" '{print $$2}'`;     \
 		DURATION=`echo $$line | awk -v FS=":" '{print $$3}'`;     \
 		CHARTDESC=`echo $$line | awk -v FS=":" '{print $$NF}'`;     \
-	sed -e "s#%%RRDPATH%%#$(RRDPATH)#g;s#%%APACHDIR%%#$(APACHDIR)#g;s#%%RRDDIR%%#$(RRDDIR)#g;s#%%MACH%%#$(MACH)#g;s#%%SENSDEV%%#$$SENSDEV#g;s#%%CHARTDESC%%#$$CHARTDESC#g" $$DURATION/sens_$$MONTERM >> sensors.cgi;	\
+		MONTERM_NONUM=`echo $$MONTERM | awk -v FS="[0-9]" '{print $$1}'`;     \
+	sed -e "s#%%MONTERM%%#$$MONTERM#g;s#%%APACHDIR%%#$(APACHDIR)#g;s#%%RRDDIR%%#$(RRDDIR)#g;s#%%MACH%%#$(MACH)#g;s#%%SENSDEV%%#$$SENSDEV#g;s#%%CHARTDESC%%#$$CHARTDESC#g" $$DURATION/sens_$$MONTERM_NONUM >> sensors.cgi;	\
 	done < "/usr/rrd/monitor.conf"
 	@cat sensors_tail >> sensors.cgi
 	install -m 755 sensors.cgi $(APACHDIR)

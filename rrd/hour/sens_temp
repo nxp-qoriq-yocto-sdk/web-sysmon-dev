@@ -1,4 +1,4 @@
-<RRD::GRAPH %%APACHDIR%%/pix_%%SENSDEV%%/temp3h.png
+<RRD::GRAPH %%APACHDIR%%/pix_%%SENSDEV%%/%%MONTERM%%h.png
         --imginfo '<IMG SRC=pix_%%SENSDEV%%/%s WIDTH=%lu HEIGHT=%lu >'
 	-a PNG
 	-h 200 -w 500
@@ -8,7 +8,6 @@
 	-t %%CHARTDESC%%
 	-x MINUTE:5:MINUTE:20:MINUTE:20:0:'%b %d %H:%M'
 	-y 1:5
-	DEF:temp=%%RRDDIR%%/sensors_%%SENSDEV%%.rrd:temp3:AVERAGE
+	DEF:temp=%%RRDDIR%%/sensors_%%SENSDEV%%.rrd:%%MONTERM%%:AVERAGE
 	LINE2:temp#FF00FF>
-
 

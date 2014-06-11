@@ -1,14 +1,14 @@
-<RRD::GRAPH %%APACHDIR%%/pix_%%SENSDEV%%/temp3m.png
+<RRD::GRAPH %%APACHDIR%%/pix_%%SENSDEV%%/%%MONTERM%%m.png
         --imginfo '<IMG SRC=pix_%%SENSDEV%%/%s WIDTH=%lu HEIGHT=%lu >'
 	-a PNG
 	-h 200 -w 500
 	--lazy
 	-s -10minutes
-	-v "Temperature (degrees C)"
+	-v "Current (amp)"
 	-t %%CHARTDESC%%
 	-x MINUTE:1:MINUTE:3:MINUTE:3:0:'%b %d %H:%M'
-	-y 1:5
-	DEF:temp=%%RRDDIR%%/sensors_%%SENSDEV%%.rrd:temp3:AVERAGE
+	--lower-limit 0
+	-Y
+	DEF:temp=%%RRDDIR%%/sensors_%%SENSDEV%%.rrd:%%MONTERM%%:AVERAGE
 	LINE2:temp#FF00FF>
-
 
