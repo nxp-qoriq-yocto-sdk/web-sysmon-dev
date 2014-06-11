@@ -1,8 +1,8 @@
 #!/bin/sh
 #
 #    sens_create_rrd -
-#	Create a sensors rrd database of 14 sensor readings
-#	at 5 minute intervals for 1 week.
+#	Create a sensors rrd database for sensor readings
+#	at 1 second intervals for 1 day.
 #
 #    Copyright 2001 Mark D. Studebaker <mdsxyz123@yahoo.com>
 #
