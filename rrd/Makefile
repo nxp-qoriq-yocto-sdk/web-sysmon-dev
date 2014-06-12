@@ -14,6 +14,7 @@ RRDDIR=/var/lib/sensors-rrd
 APACHE=/www/pages
 APACHDIR=$(APACHE)/senspix
 MACH=$(shell uname -n | tr '[a-z]' '[A-Z]')
+UPDATEDAEMON_HEAD=/usr/rrd/update_rrd_head
 UPDATEDAEMON=/usr/rrd/update_rrd.sh
 HWMONSYS=/sys/class/hwmon
 SENSDIR=/sys/class/hwmon/hwmon0/device
@@ -51,6 +52,7 @@ $(APACHDIR) :
 	install -d -o $(USER) $(APACHDIR)
 
 rrdb : $(RRDDIR)
+	@cat $(UPDATEDAEMON_HEAD) > $(UPDATEDAEMON)
 	@for HWMONDIR in $(HWMONSYS)/*;	\
 	do	\
 		SENSDEV=`echo $$HWMONDIR | awk -v FS="/" '{print $$NF}'`;	\
@@ -74,4 +76,5 @@ install: rrdb $(SENSDIR) $(APACHE)
 	@$(UPDATEDAEMON) &
 
 clean:
+	@kill `ps | grep "update_rrd.sh" | grep -v "grep" | awk '{print $$1}'`
 	rm -rf sensors.cgi $(APACHDIR)/sensors.cgi $(RRDDIR)
