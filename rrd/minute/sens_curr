@@ -1,4 +1,4 @@
-<RRD::GRAPH %%APACHDIR%%/pix_%%SENSDEV%%/%%MONTERM%%m.png
+<RRD::GRAPH %%WEBDIR%%/pix_%%SENSDEV%%/%%MONTERM%%m.png
         --imginfo '<IMG SRC=pix_%%SENSDEV%%/%s WIDTH=%lu HEIGHT=%lu >'
 	-a PNG
 	-h 200 -w 500

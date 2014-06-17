@@ -1,0 +1,18 @@
+
+#
+# Get the first value from these /proc files
+#
+SENSORS="loadavg"
+for i in $SENSORS
+do
+	V="`cat /proc/$i 2> /dev/null`"
+	if [ $? -ne 0 ]
+	then
+		STRING="${STRING}:U"
+	else
+		V="`echo $V | cut -d ' ' -f 1`"
+		STRING="${STRING}:${V}"
+	fi
+done
+
+$RRDPATH/rrdtool update $RRDB $STRING

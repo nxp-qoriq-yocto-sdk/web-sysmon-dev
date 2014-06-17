@@ -1,0 +1,15 @@
+
+#
+# Get the power monitor value from hwmon subsystem
+#
+for i in $SENSORS
+do
+	V="`cat $SENS/${i}_input 2> /dev/null`"
+	if [ $? -ne 0 ]
+	then
+		STRING="${STRING}:U"
+	else
+		V=`echo "3k0 ${V/-/_} 1000000/p"|dc`
+		STRING="${STRING}:${V}"
+	fi
+done

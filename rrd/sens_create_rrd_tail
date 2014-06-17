@@ -1,0 +1,2 @@
+DS:loadavg:GAUGE:${HB}:0:U \
+RRA:AVERAGE:0.5:1:$RW

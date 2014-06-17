@@ -1,10 +1,13 @@
 #!/bin/sh
 #
-#    sens_create_rrd -
-#	Create a sensors rrd database for sensor readings
-#	at 1 second intervals for 1 day.
+#    sens_update_rrd -
+#	Update a sensors rrd database.
+#	Sample usage:
+#		sens_update_rrd /var/lib/database.rrd hwmon0
 #
-#    Copyright 2001 Mark D. Studebaker <mdsxyz123@yahoo.com>
+#################################################################
+#
+#    Copyright (c) 2014 Freescale Semiconductor, Inc. All rights reserved.
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,35 +24,30 @@
 #    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #    MA 02110-1301 USA.
 #
+#################################################################
+#
+if [ $# -lt 1 -o $# -gt 2 ]
+then
+	echo "usage: $0 database.rrd [hwmonN]"
+	exit 1
+elif [ $# -eq 2 ]
+then
+	HWMON=$2
+else
+	HWMON=hwmon0
+fi
+#
 RRDPATH=/usr/bin
 RRDB=$1
-#Heartbeat 15 seconds
-HB=15
-#Rows 60 * 60 * 24 = 1 day of every second
-RW=86400
 
-if [ $# -ne 1 ]
+SENSDIR=/sys/class/hwmon
+SENS=$SENSDIR/$HWMON/device
+
+if [ ! -d $SENS ]
 then
-	echo usage: $0 database.rrd
+	echo "No sensors found in: $SENS"
+	echo "(modprobe sensor modules?)"
 	exit 1
 fi
 
-DIR=`dirname $1`
-if [ ! -w $DIR ]
-then
-	echo $0: directory $DIR not present or not writable
-	exit 1
-fi
-
-$RRDPATH/rrdtool create $RRDB --step 1 \
-	DS:temp1:GAUGE:${HB}:-25:250 \
-	DS:temp2:GAUGE:${HB}:-25:250 \
-	DS:temp3:GAUGE:${HB}:-25:250 \
-	DS:in0:GAUGE:${HB}:-25:25 \
-	DS:in1:GAUGE:${HB}:-25:25 \
-	DS:in2:GAUGE:${HB}:-25:25 \
-	DS:curr1:GAUGE:${HB}:-40:100 \
-	DS:power1:GAUGE:${HB}:0:100 \
-	DS:loadavg:GAUGE:${HB}:0:U \
-	RRA:AVERAGE:0.5:1:$RW
-
+STRING=N
