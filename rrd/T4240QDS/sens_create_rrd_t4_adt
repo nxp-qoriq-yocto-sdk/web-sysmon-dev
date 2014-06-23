@@ -1,0 +1,52 @@
+#!/bin/sh
+#
+#    sens_create_rrd -
+#	Create a sensors rrd database for sensor readings
+#	at 1 second intervals for 1 day.
+#
+#################################################################
+#
+#    Copyright (c) 2014 Freescale Semiconductor, Inc. All rights reserved.
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#    MA 02110-1301 USA.
+#
+#################################################################
+#
+RRDPATH=/usr/bin
+RRDB=$1
+#Heartbeat 15 seconds
+HB=15
+#Rows 60 * 60 * 24 = 1 day of every second
+RW=86400
+
+if [ $# -ne 1 ]
+then
+	echo usage: $0 database.rrd
+	exit 1
+fi
+
+DIR=`dirname $1`
+if [ ! -w $DIR ]
+then
+	echo $0: directory $DIR not present or not writable
+	exit 1
+fi
+
+$RRDPATH/rrdtool create $RRDB --step 1 \
+DS:temp1:GAUGE:${HB}:-25:250 \
+DS:temp2:GAUGE:${HB}:-25:250 \
+DS:loadavg:GAUGE:${HB}:0:U \
+RRA:AVERAGE:0.5:1:$RW

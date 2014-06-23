@@ -17,9 +17,9 @@ SENSDIR=/sys/class/hwmon/hwmon0/device
 UPDATEDAEMON=/usr/rrd/update_rrd.sh
 
 ifeq ($(MACH),T4240QDS)
-RRDUPDATE=sens_update_rrd_t4
+SCAN_CREATE=/usr/rrd/T4240QDS/scan_and_create_t4.sh
 else
-RRDUPDATE=sens_update_rrd
+SCAN_CREATE=/usr/rrd/scan_and_create.sh
 endif
 
 ################################################
@@ -38,7 +38,7 @@ $(WEBDIR) :
 	install -d -o $(USER) $(WEBDIR)
 
 rrdb : $(RRDDIR)
-	@./scan_and_create.sh
+	@$(SCAN_CREATE)
 
 $(SENSDIR) :
 	$(error error - sensor $(SENSDEV) not installed - check SENSDEV definition in Makefile)
