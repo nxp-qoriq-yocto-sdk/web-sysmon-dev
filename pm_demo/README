@@ -1,0 +1,26 @@
+########################################################################
+#
+# Copyright (c) 2014 Freescale Semiconductor, Inc. All rights reserved.
+#
+########################################################################
+
+OVERVIEW
+--------
+The scripts cycle the system through different PM low power states which work
+together with the web based system monitor application to form a out-of-box
+demo for PM features.
+
+USER GUIDE
+----------
+Please setup web based system monitor application first.
+Then run ./pm_demo.sh.
+
+The script will cycle the system through different PM low power states like
+CPUidle, CPUfreq, CPU hotplug and so on. The demo is splited into two parts:
+static PM features and dynamic PM features.
+
+From web based monitor the real-time result is showing up. You can check the
+current PM state from the output of the script.
+
+The demo could be terminated by CTRL-C. It will apply the default PM features
+back.
